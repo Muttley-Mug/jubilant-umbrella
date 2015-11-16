@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <webformat_commons_adminhtml_releasenotes_index>
+        <reference name="content">
+            <block type="webformat_commons/adminhtml_releaseNotes" name="webformat_commons_adminhtml_releasenotes"
+                   template="webformat/commons/releasenotes.phtml"/>
+        </reference>
+    </webformat_commons_adminhtml_releasenotes_index>
+</layout>

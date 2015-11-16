@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <webformat translate="label" module="webformat_commons">
+            <label>Webformat</label>
+            <sort_order>1000</sort_order>
+        </webformat>
+    </tabs>
+    <sections>
+        <webformat_commons translate="label" module="webformat_commons">
+            <label>Setup</label>
+            <tab>webformat</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <global translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Enable or disable Webformat module</comment>
+                        </enabled>
+                        <debug translate="label">
+                            <label>Enable debug</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>3000</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </debug>
+                    </fields>
+                </global>
+                <connection translate="label">
+                    <label>File Transfer Configuration</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <expanded>0</expanded>
+                    <fields>
+                        <type translate="label">
+                            <label>Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>webformat_commons/system_config_source_connection_type</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Local or remote connection</comment>
+                        </type>
+                        <import_local_path translate="label">
+                            <label>Local path for import</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>1</type>
+                            </depends>
+                        </import_local_path>
+                        <export_local_path translate="label">
+                            <label>Local path for export</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>1</type>
+                            </depends>
+                        </export_local_path>
+                        <remote_server translate="label">
+                            <label>Remote server (SFTP)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>0</type>
+                            </depends>
+                        </remote_server>
+                        <sftp_username translate="label">
+                            <label>SFTP Username</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>0</type>
+                            </depends>
+                        </sftp_username>
+                        <sftp_password translate="label">
+                            <label>SFTP password</label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <type>0</type>
+                            </depends>
+                        </sftp_password>
+                    </fields>
+                </connection>
+            </groups>
+        </webformat_commons>
+    </sections>
+</config>

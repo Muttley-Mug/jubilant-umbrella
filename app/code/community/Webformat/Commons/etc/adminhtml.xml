@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <webformat translate="title" module="webformat_commons">
+            <title>Webformat</title>
+            <sort_order>85</sort_order>
+            <children>
+                <release_notes translate="title" module="webformat_commons">
+                    <title>Release notes</title>
+                    <sort_order>1030</sort_order>
+                    <action>webformat_commons/adminhtml_releaseNotes</action>
+                </release_notes>
+            </children>
+        </webformat>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <webformat translate="title" module="webformat_commons">
+                        <title>Webformat</title>
+                        <sort_order>100</sort_order>
+                        <children>
+                            <release_notes>
+                                <title>Release notes</title>
+                                <sort_order>1030</sort_order>
+                            </release_notes>
+                        </children>
+                    </webformat>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <webformat_commons translate="title" module="webformat_commons">
+                                        <title>Webformat</title>
+                                        <sort_order>10</sort_order>
+                                    </webformat_commons>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
