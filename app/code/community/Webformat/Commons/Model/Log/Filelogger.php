@@ -32,8 +32,41 @@ class Webformat_Commons_Model_Log_Filelogger implements  Webformat_Commons_Model
      * @param string $namespace , logs namespace (i.e. module_name or a log entries group)
      * @return void
      */
-    public function _log($value, $level, $namespace)
+    public function addLog($value, $level, $namespace)
     {
-        Mage::log(sprintf("%s - %s", $level, $value), null, $namespace . '/' . date('Y-m-d') . '-' . $level . '.log', true);
+        static $loggers = array();
+
+        $levelReadable = Mage::helper('webformat_commons/log')->getReadableLogLevel($level);
+        $file = $namespace . '/' . date('Y-m-d') . '-' . $levelReadable . '.log';
+
+        try {
+            if (!isset($loggers[$file])) {
+                $logDir  = Mage::getBaseDir('var').DS. 'log';
+                $logFile = $logDir . DS . $file;
+
+                if (!is_dir($logDir)) {
+                    mkdir($logDir);
+                    chmod($logDir, 0750);
+                }
+
+                if (!file_exists($logFile)) {
+                    file_put_contents($logFile, '');
+                    chmod($logFile, 0640);
+                }
+
+                $format = '%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL;
+                $formatter = new Zend_Log_Formatter_Simple($format);
+                $writer = new Zend_Log_Writer_Stream($logFile);
+                $writer->setFormatter($formatter);
+                $loggers[$file] = new Zend_Log($writer);
+            }
+
+            if (is_array($value) || is_object($value)) {
+                $value = print_r($value, true);
+            }
+
+            $loggers[$file]->log($value, $level);
+        }catch (Exception $e) {
+        }
     }
 }

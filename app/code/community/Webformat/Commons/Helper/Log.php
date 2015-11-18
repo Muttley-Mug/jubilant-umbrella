@@ -47,12 +47,20 @@ class Webformat_Commons_Helper_Log extends Mage_Core_Helper_Abstract
     /** @var Webformat_Commons_Model_Log_LogInterface */
     private static $_logger;
 
+    /** @var array others log levels */
+    private $customLogLevels;
+
+
     public function setNamespace($namespace){
         $this->namespace = $namespace;
     }
 
     public function getNamespace(){
-        return isset($this->namespace) ?  $this->namespace : 'webformat_commons_logs';
+        return isset($this->namespace) ?  $this->namespace : 'webformat_commons';
+    }
+
+    public function setCustomLogLevels($customLogLevels){
+        $this->customLogLevels = $customLogLevels;
     }
 
     /**
@@ -127,12 +135,43 @@ class Webformat_Commons_Helper_Log extends Mage_Core_Helper_Abstract
         $this->_log($value, $level);
     }
 
+    private function _getLogLevel($level){
+        if(isset(self::$LOG_LEVELS [$level])){
+            return $level;
+        }
+
+        $others = $this->customLogLevels;
+        if($others != null && isset($others [$level])){
+            return $others [$level];
+        }
+
+        return Zend_Log::DEBUG;
+    }
+
+    public function getReadableLogLevel($level){
+        if(isset(self::$LOG_LEVELS [$level])){
+            return self::$LOG_LEVELS [$level];
+        }else{
+            return self::$LOG_LEVELS [Zend_Log::DEBUG];
+        }
+    }
+
+    /** Check if debug is enabled. */
+    public function isActiveLog()
+    {
+        return Mage::getStoreConfigFlag("webformat_commons/global/log");
+    }
+
 
     /**
      * Private log function.
      */
     private function _log($value, $level, $namespace = null)
     {
+        if(!$this->isActiveLog()){
+            return;
+        }
+
         if(empty($namespace)){
             $namespace = $this->getNamespace();
         }
@@ -140,15 +179,10 @@ class Webformat_Commons_Helper_Log extends Mage_Core_Helper_Abstract
             mkdir(Mage::getBaseDir('log') . DS . $namespace);
         }
 
-        if(isset(self::$LOG_LEVELS [$level])){
-            $level = self::$LOG_LEVELS [$level];
-        }else{
-            $level = 'EXT';
-        }
-
         /** @var $logger Webformat_Commons_Model_Log_LogInterface */
         $logger = $this->getLogger();
-        $logger->_log($value, $level, $namespace);
+        $logLevel= $this->_getLogLevel($level);
+        $logger->addLog($value, $logLevel, $namespace);
     }
 
     /**

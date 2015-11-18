@@ -26,11 +26,13 @@ interface Webformat_Commons_Model_Log_LogInterface {
 
 
     /**
+     * Logs a line.
+     *
      * @param mixed $value, message to log
      * @param string $level, log level (same of Zend_Log)
      * @param string $namespace, logs namespace (i.e. module_name or a log entries group)
      * @return void
      */
-    public function _log($value, $level, $namespace);
+    public function addLog($value, $level, $namespace);
 
 }
