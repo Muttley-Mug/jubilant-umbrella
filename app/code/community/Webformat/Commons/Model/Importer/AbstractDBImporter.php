@@ -25,10 +25,19 @@
  */
 abstract class Webformat_Commons_Model_Importer_AbstractDBImporter extends Webformat_Commons_Model_Importer_Abstract {
 
-	function __construct() {
-        /** @var Webformat_Commons_Model_Resource_Type_Db_Pdo_Mssql $dbh */
-        $dbh = Mage::getSingleton('webformat_commons/resource_db_external')->getConnection();
+	/**
+	 *
+     */
+	function _construct() {
+		$setupName = $this->getSetupName();
+
+		/** @var Mage_Core_Model_Resource_Type_Db $dbh */
+        $dbh = Mage::getSingleton('webformat_commons/resource_db_external', $setupName)->getConnection();
 		$this->setConnection($dbh);
 	}
 
+	protected function getSetupName(){
+        //keep default
+        return null;
+    }
 }

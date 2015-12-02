@@ -20,15 +20,41 @@
 <?php
 
 class Webformat_Commons_Model_Resource_Db_External extends Mage_Core_Model_Abstract {
-    public function _construct() {
-        $name = "webformat_setup";
-        $connConfig = Mage::getConfig()->getResourceConnectionConfig($name);
+
+    const __SETUP_NAME = "webformat_setup";
+
+
+    /**
+     * Init an external resource by input setup
+     *
+     * @param string $setupName name of setup to use
+     */
+    public function __construct($setupName = NULL) {
+
+        parent::__construct();
+
+        if($setupName == null) {
+            $setupName = self::__SETUP_NAME;
+        }
+        $connConfig = Mage::getConfig()->getResourceConnectionConfig($setupName);
         $type = (string) $connConfig->type;
         $classNameNode = Mage::getConfig()->getResourceTypeConfig($type);
         $className = (string) $classNameNode->adapter;
-        /** @var Webformat_Commons_Model_Resource_Type_Db_Pdo_Mssql $connection */
+
+        /** @var $connection Zend_Db_Adapter_Abstract */
         $connection = new $className((array) $connConfig);
-        $this->setConnection($connection);
+        $this->__connection = $connection;
+    }
+
+    /**
+     * Get external connection
+     * @return Zend_Db_Adapter_Abstract
+     */
+    public function getConnection(){
+        if(!$this->__connection->isConnected()){
+            $this->__connection->getConnection();
+        }
+        return $this->__connection;
     }
 
     public function __destruct() {
