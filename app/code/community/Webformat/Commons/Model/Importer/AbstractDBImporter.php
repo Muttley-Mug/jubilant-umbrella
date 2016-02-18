@@ -32,7 +32,7 @@ abstract class Webformat_Commons_Model_Importer_AbstractDBImporter extends Webfo
 		$setupName = $this->getSetupName();
 
 		/** @var Mage_Core_Model_Resource_Type_Db $dbh */
-        $dbh = Mage::getSingleton('webformat_commons/resource_db_external', $setupName)->getConnection();
+        $dbh = Mage::getSingleton('webformat_commons/resource_db_external', array("setupName" => $setupName))->getConnection();
 		$this->setConnection($dbh);
 	}
 

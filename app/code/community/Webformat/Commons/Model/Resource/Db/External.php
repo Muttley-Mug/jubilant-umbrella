@@ -27,14 +27,16 @@ class Webformat_Commons_Model_Resource_Db_External extends Mage_Core_Model_Abstr
     /**
      * Init an external resource by input setup
      *
-     * @param string $setupName name of setup to use
+     * @param array $setupParams array with name of setup to use
      */
-    public function __construct($setupName = NULL) {
+    public function __construct($setupParams = NULL) {
 
         parent::__construct();
 
-        if($setupName == null) {
+        if($setupParams == null || !isset($setupParams['setupName']) || $setupParams['setupName'] == null) {
             $setupName = self::__SETUP_NAME;
+        }else{
+            $setupName = $setupParams['setupName'];
         }
         $connConfig = Mage::getConfig()->getResourceConnectionConfig($setupName);
         $type = (string) $connConfig->type;
