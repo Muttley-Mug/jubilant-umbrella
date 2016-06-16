@@ -22,12 +22,11 @@
 /** Abstract Importer Model. */
 abstract class Webformat_Commons_Model_Exporter_Abstract extends Webformat_Commons_Model_AbstractImportExport {
 
-	/**
-	 * process whatever export
-	 *
-	 * @return string
-	 * @author Michele Ongaro
-	 **/
+    /**
+     * process whatever export
+     * @return string
+     * @throws Zend_Exception
+     */
 
 	public final function export() {
 		if (!$this->isEnabled()) {
@@ -35,14 +34,18 @@ abstract class Webformat_Commons_Model_Exporter_Abstract extends Webformat_Commo
 			return "Module export is disabled";
 		}
 		if ($this->checkSemaphore()) {
+            Mage::helper('webformat_commons/log')->logWarn("Semaphore still there, aborting!");
 			throw new Zend_Exception("Semaphore still there, aborting!", 1);
 		}
 
-		$this->_doExport();
-		/*$semaphore = $this->createSemaphore();
+		$semaphore = $this->createSemaphore();
 		if (!$semaphore) {
-		throw new Zend_Exception("Could not create remote Semaphore!", 1);
-		};*/
+            Mage::helper('webformat_commons/log')->logWarn("Could not create remote Semaphore!");
+		    throw new Zend_Exception("Could not create remote Semaphore!", 1);
+		};
+
+        $this->_doExport();
+        $this->removeSemaphore();
 		return "Import done";
 	}
 
