@@ -39,10 +39,16 @@ class Webformat_Commons_Helper_Mail extends Mage_Core_Helper_Abstract
 
 
     /**
+     * Send an e-mail
+     *
      * @param string $subject
      * @param string|array $messages
+     * @param string $to destination (comma separated for multiple addresses)
+     * @param string $from from email address
+     * @param string $fromName from name
+     *
      */
-    public function send($subject, $messages)
+    public function send($subject, $messages, $to = '', $from = '', $fromName = '')
     {
         if(!$this->isActiveEmail()){
             return;
@@ -53,18 +59,23 @@ class Webformat_Commons_Helper_Mail extends Mage_Core_Helper_Abstract
             $message = implode("\r\n",$messages);
         }
 
-        $addresses = explode(',',$this->getEmailAddresses());
-        $mail = Mage::getModel('core/email');
-        $mail->setBody($message);
+        if(empty($to)) {
+            $addresses = explode(',', $this->getEmailAddresses());
+        }else{
+            $addresses = explode(',', $to);
+        }
+
+        $mail = new Zend_Mail();
+        $mail->setBodyText($message, "UTF-8");
         $mail->setSubject($subject);
-        $mail->setFromEmail(Mage::getStoreConfig('trans_email/ident_general/email'));
-        $mail->setFromName(Mage::getStoreConfig('trans_email/ident_general/name'));
-        $mail->setType('text');
+        $mail->setFrom(
+            empty($from) ? Mage::getStoreConfig('trans_email/ident_general/email') : $from,
+            empty($fromName) ? Mage::getStoreConfig('trans_email/ident_general/name') : $fromName
+        );
+        $mail->addTo($addresses);
+
         try {
-            foreach ($addresses as $address) {
-                $mail->setToEmail($address);
-                $mail->send();
-            }
+            $mail->send();
         }
         catch (Exception $e) {
             Mage::logException($e);
