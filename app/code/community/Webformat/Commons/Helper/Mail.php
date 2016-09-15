@@ -69,8 +69,8 @@ class Webformat_Commons_Helper_Mail extends Mage_Core_Helper_Abstract
         $mail->setBodyText($message, "UTF-8");
         $mail->setSubject($subject);
         $mail->setFrom(
-            empty($from) ? Mage::getStoreConfig('trans_email/ident_general/email') : $from,
-            empty($fromName) ? Mage::getStoreConfig('trans_email/ident_general/name') : $fromName
+            empty($from) ? Mage::getStoreConfig('webformat_commons/global/email_from') : $from,
+            empty($fromName) ? Mage::getStoreConfig('webformat_commons/global/email_from_name') : $fromName
         );
         $mail->addTo($addresses);
 

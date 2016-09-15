@@ -42,8 +42,8 @@ abstract class Webformat_Commons_Model_Exporter_Abstract extends Webformat_Commo
 		if (!$semaphore) {
             Mage::helper('webformat_commons/log')->logWarn("Could not create remote Semaphore!");
 		    throw new Zend_Exception("Could not create remote Semaphore!", 1);
-		};
-
+		}
+		
         $this->_doExport();
         $this->removeSemaphore();
 		return "Import done";

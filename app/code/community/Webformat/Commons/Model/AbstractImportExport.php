@@ -87,17 +87,22 @@ abstract class Webformat_Commons_Model_AbstractImportExport extends Mage_Core_Mo
 	 **/
 
 	public function checkSemaphore() {
+		$esito = false;
 		$file = $this->getSemaphoreFileName();
         if (!empty($file)) {
 			try {
                 $size = $this->getSemaphore()->getSize($file);
-				return $size > -1 ? true : false;
+				$esito = ($size > -1 ? true : false);
 			} catch (Exception $e) {
-				return false;
+				$esito = false;
 			}
 		}
 
-		return false;
+		if($esito){
+			$this->alertLocked();
+		}
+
+		return $esito;
 	}
 
 	/**
@@ -158,5 +163,17 @@ abstract class Webformat_Commons_Model_AbstractImportExport extends Mage_Core_Mo
         }
 
 		return $result;
+	}
+
+	protected function alertLocked(){
+
+		$sendLockedMail = Mage::getStoreConfigFlag("webformat_commons/global/email_lock");
+		if($sendLockedMail) {
+			$semaphoreName = pathinfo($this->getSemaphoreFileName(), PATHINFO_FILENAME);
+			Mage::helper("webformat_commons/mail")->send(
+                    sprintf("Import task locked [%s].", $semaphoreName),
+					sprintf("Lock file [%s]. Task [%s]", $this->getSemaphoreFileName(), get_class())
+			);
+		}
 	}
 }

@@ -34,8 +34,15 @@ abstract class Webformat_Commons_Model_Importer_Abstract extends Webformat_Commo
 			Mage::helper('webformat_commons/log')->logWarn("Module import is disabled");
 			return "Module import is disabled";
 		}
-		if (!$this->checkSemaphore()) {
-			throw new Zend_Exception('Semaphore not found');
+		if ($this->checkSemaphore()) {
+			Mage::helper('webformat_commons/log')->logWarn("Semaphore still there, aborting!");
+			throw new Zend_Exception("Semaphore still there, aborting!", 1);
+		}
+
+		$semaphore = $this->createSemaphore();
+		if (!$semaphore) {
+			Mage::helper('webformat_commons/log')->logWarn("Could not create remote Semaphore!");
+			throw new Zend_Exception("Could not create remote Semaphore!", 1);
 		}
 		$this->_doImport();
 		$this->removeSemaphore();
