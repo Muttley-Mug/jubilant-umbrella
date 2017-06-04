@@ -15,6 +15,10 @@ class Webformat_Profiler_Simple extends Webformat_Profiler_Abstract
                 $res[$k1] = array($k2 => array(0,0));
             if(!array_key_exists($k2,$res[$k1]))
                 $res[$k1][$k2] = array(0,0);
+            list($c1,$c2) = $res[$k1][$k2];
+            $res[$k1][$k2] = array($c1+1,$c2 + $t2 - $t1);
+            $keys[] = $k2;
+            $k1 = $k2 ; $t1 = $t2;
         }
         file_put_contents($filename,$file);
     }
