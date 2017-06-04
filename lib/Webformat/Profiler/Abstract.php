@@ -10,6 +10,8 @@ abstract class Webformat_Profiler_Abstract
         return $bt[1]['file'].'+'.$bt[1]['line'];
     }
 
+    protected function doNotProfile($key){return false;}
+
     public function profile($key = null)
     {
         if(!$this->enabled) return;
