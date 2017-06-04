@@ -25,4 +25,6 @@ abstract class Webformat_Profiler_Abstract
             $this->times[] = array($key,microtime(true));
     }
 
+    abstract protected function enableKeys();
+    abstract protected function disableKeys();
 }
