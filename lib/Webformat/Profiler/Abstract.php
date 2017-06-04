@@ -3,6 +3,18 @@
 abstract class Webformat_Profiler_Abstract
 {
     protected $times = null;
+    protected $enabled = false;
+
+
+    public function enable($en = true)
+    {
+        $this->enabled = $en;
+    }
+
+    public function disable()
+    {
+        $this->enabled = false;
+    }
 
     protected function defaultKey()
     {
