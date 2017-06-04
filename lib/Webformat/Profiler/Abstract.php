@@ -39,4 +39,6 @@ abstract class Webformat_Profiler_Abstract
 
     abstract protected function enableKeys();
     abstract protected function disableKeys();
+
+    abstract function report($recipient);
 }
