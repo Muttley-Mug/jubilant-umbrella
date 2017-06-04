@@ -4,6 +4,11 @@ abstract class Webformat_Profiler_Abstract
 {
     protected $times = null;
 
+    protected function defaultKey()
+    {
+        $bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,2);
+        return $bt[1]['file'].'+'.$bt[1]['line'];
+    }
 
     public function profile($key = null)
     {
