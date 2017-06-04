@@ -22,6 +22,7 @@ class Webformat_Profiler_Simple extends Webformat_Profiler_Abstract
         }
         $keys = array_flip(array_flip($keys));
         array_walk($res,function(&$a){array_walk($a,function(&$i){$i = $i[1] * 1000 / $i[0];});});
+        $file=','.implode(',',$keys)."\n";
         file_put_contents($filename,$file);
     }
 
