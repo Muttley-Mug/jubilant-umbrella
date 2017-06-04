@@ -20,6 +20,7 @@ class Webformat_Profiler_Simple extends Webformat_Profiler_Abstract
             $keys[] = $k2;
             $k1 = $k2 ; $t1 = $t2;
         }
+        $keys = array_flip(array_flip($keys));
         file_put_contents($filename,$file);
     }
 
